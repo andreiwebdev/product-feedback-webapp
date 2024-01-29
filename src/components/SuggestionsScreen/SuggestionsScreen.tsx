@@ -8,7 +8,7 @@ export const SuggestionsScreen = () => {
             <Sidebar />
             <div className="w-full">
                 <ActionsTopBar />
-                <Wrapper extraClasses="h-[80vh] overflow-auto pr-[100px]">
+                <Wrapper extraClasses="h-[80vh] overflow-auto">
                     <div>
                         <FeedbackCard />
                         <FeedbackCard />
