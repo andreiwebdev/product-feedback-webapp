@@ -10,6 +10,7 @@ export default {
                 lighterBlue: "#CFD7FF",
                 grey: "#F2F4FF",
                 lightGrey: "#F7F8FD",
+                navy: "#373F68",
                 darkNavy: "#3A4374",
                 lightNavy: "#647196",
                 orange: "#F49F85",

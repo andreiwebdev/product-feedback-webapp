@@ -6,7 +6,7 @@ import { Wrapper } from "../common";
 export const Sidebar = () => {
     const [toggleMobileMenu, setToggleMobileMenu] = useState(false);
     return (
-        <div className="container mx-auto xl:px-0 xs:px-0 sm:max-w-3xl xl:max-w-[20%] md:flex md:gap-[10px] xl:block md:mb-[40px] xl:mb-0">
+        <div className="container mx-auto md:px-[24px] xl:px-0 xs:px-0 sm:max-w-3xl xl:max-w-[20%] xl:mx-0 md:flex md:gap-[10px] xl:block md:mb-[40px] xl:mb-0">
             <div
                 className="h-[72px] flex flex-col items-center justify-center md:h-[201px] md:rounded-[10px] md:justify-end md:py-[24px] md:w-[380px] xl:w-full xl:px-[24px] xl:mb-[24px]"
                 style={{
