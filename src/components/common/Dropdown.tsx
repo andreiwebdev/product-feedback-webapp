@@ -32,7 +32,7 @@ export const Dropdown = (props: {
                 style={{
                     boxShadow: "0px 10px 40px -7px rgba(55, 63, 104, 0.35)",
                 }}
-                className={`hidden opacity-1 bg-white rounded-[10px] absolute top-[65px] text-[16px] text-lightNavy w-[200px] max-h-[200px] overflow-auto md:w-[250px] xl:w-[300px] ${
+                className={`hidden opacity-1 bg-white rounded-[10px] absolute top-[65px] text-[16px] text-lightNavy w-[200px] max-h-[200px] overflow-auto md:w-[250px] xl:w-[300px] z-50 ${
                     toggleDropdown ? "!block" : ""
                 } ${props.dropdownMenuExtraStyles}`}
             >
