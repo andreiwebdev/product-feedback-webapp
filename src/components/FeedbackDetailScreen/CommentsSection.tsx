@@ -1,11 +1,10 @@
 import ProfileImagePlaceholder from "../../assets/user-images/image-anne.jpg";
+import { SectionTitle } from "../common";
 
 export const CommentsSection = () => {
     return (
         <div className="bg-white rounded-[10px] p-[24px] mb-[24px]">
-            <h3 className="text-darkNavy text-[18px] font-bold -tracking-[0.25] mb-[24px]">
-                4 Comments
-            </h3>
+            <SectionTitle text="4 Comments" />
             {/* comment with no replies */}
             <div className="border-b last:border-b-0 last:mb-0 pb-[24px] mb-[24px] last:pb-0">
                 <div className="flex items-center justify-between mb-[16px]">

@@ -4,6 +4,9 @@ import { FaAngleDown, FaCheck } from "react-icons/fa";
 export const Dropdown = (props: {
     options: string[];
     dropdownMenuExtraStyles?: string;
+    selectedOptionStyles?: string;
+    arrowStyles?: string;
+    onSelect?: (option: string) => void;
 }) => {
     const [toggleDropdown, setToggleDropdown] = useState(false);
     const [selectedOption, setSelectedOption] = useState(props.options[0]);
@@ -11,17 +14,18 @@ export const Dropdown = (props: {
     const handleOptionClick = (option: string) => {
         setToggleDropdown(false);
         setSelectedOption(option);
+        props.onSelect && props.onSelect(option);
     };
 
     return (
         <div className="relative">
             <div
                 onClick={() => setToggleDropdown(!toggleDropdown)}
-                className="flex gap-[8px] text-[14px] text-white cursor-pointer font-bold"
+                className={`flex gap-[8px] text-[14px] text-white cursor-pointer font-bold ${props.selectedOptionStyles}`}
             >
                 {selectedOption}
                 <FaAngleDown
-                    className={`relative top-[4px] ${
+                    className={`relative top-[4px] ${props.arrowStyles} ${
                         toggleDropdown
                             ? "rotate-180 transition-transform"
                             : "rotate-0 transition-transform"
