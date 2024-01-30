@@ -1,2 +1,2 @@
 export * from "./CreateNewFeedbackScreen";
-export * from "./CreateNewFeedbaackForm";
+export * from "./CreateNewFeedbackForm";

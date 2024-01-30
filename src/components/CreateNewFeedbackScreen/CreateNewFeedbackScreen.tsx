@@ -1,4 +1,4 @@
-import { CreateNewFeedbaackForm } from ".";
+import { CreateNewFeedbackForm } from ".";
 import { SectionTitle, Wrapper } from "../common";
 import { FaAngleLeft } from "react-icons/fa";
 import NewFeedbackIcon from "../../assets/shared/icon-new-feedback.svg";
@@ -19,7 +19,7 @@ export const CreateNewFeedbackScreen = () => {
                     alt="new feedback icon"
                 />
                 <SectionTitle text="Create New Feedback" />
-                <CreateNewFeedbaackForm />
+                <CreateNewFeedbackForm />
             </div>
         </Wrapper>
     );

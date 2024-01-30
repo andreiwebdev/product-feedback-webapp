@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dropdown } from "../common";
 
-export const CreateNewFeedbaackForm = () => {
+export const CreateNewFeedbackForm = () => {
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
     const [detail, setDetail] = useState("");
