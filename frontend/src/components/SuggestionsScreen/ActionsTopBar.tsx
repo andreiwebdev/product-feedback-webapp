@@ -1,7 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import { Dropdown } from "../common";
 import { SvgIdea } from "../svgs";
 
 export const ActionsTopBar = () => {
+    const navigate = useNavigate();
+
+    const handleAddFeedback = () => {
+        navigate("/add-feedback");
+    };
     return (
         <div className="mx-auto md:px-[24px] xl:px-0 xs:px-0 sm:max-w-3xl xl:w-full xl:max-w-full xl:mx-0">
             <div className="bg-navy w-full px-[24px] py-[8px] mb-[32px] flex items-center justify-between md:max-w-3xl md:mx-auto md:rounded-[10px] md:mb-[24px] md:py-[16px] md:px-[24px] xl:mx-0 xl:w-full xl:max-w-full xl:p-[24px]">
@@ -24,7 +30,10 @@ export const ActionsTopBar = () => {
                         </div>
                     </div>
                 </div>
-                <div className="bg-purple rounded-[10px] text-white px-[16px] py-[10px] text-[13px] font-bold cursor-pointer w-fit md:text-[14px] md:py-[12px] md:px-[24px]">
+                <div
+                    onClick={handleAddFeedback}
+                    className="bg-purple rounded-[10px] text-white px-[16px] py-[10px] text-[13px] font-bold cursor-pointer w-fit md:text-[14px] md:py-[12px] md:px-[24px]"
+                >
                     + Add Feedback
                 </div>
             </div>

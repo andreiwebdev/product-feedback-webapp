@@ -1,6 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import NoFeedBackImage from "../../assets/suggestions/illustration-empty.svg";
 
 export const NoFeedback = () => {
+    const navigate = useNavigate();
+
+    const handleAddFeedback = () => {
+        navigate("/add-feedback");
+    };
+
     return (
         <div className="bg-white rounded-[10px] py-[76px] px-[25px] flex flex-col items-center justify-center text-center md:py-[110px] md:px-[140px] xl:px-[209px]">
             <img
@@ -15,7 +22,10 @@ export const NoFeedback = () => {
                 Got a suggestion? Found a bug that needs to be squashed? We love
                 hearing about new ideas to improve our app.
             </p>
-            <div className="bg-purple rounded-[10px] text-white px-[16px] py-[10px] text-[13px] font-bold cursor-pointer w-fit md:text-[14px] md:py-[12px] md:px-[24px]">
+            <div
+                onClick={handleAddFeedback}
+                className="bg-purple rounded-[10px] text-white px-[16px] py-[10px] text-[13px] font-bold cursor-pointer w-fit md:text-[14px] md:py-[12px] md:px-[24px]"
+            >
                 + Add Feedback
             </div>
         </div>
