@@ -1,87 +1,85 @@
 import { useState } from "react";
-import { Dropdown } from "../common";
+import { FormGroup } from "../common";
+import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createFeedback } from "../../api/feedbacks";
+
+type FormErrors = {
+    [key: string]: string;
+};
 
 export const CreateNewFeedbackForm = () => {
     const [title, setTitle] = useState("");
-    const [category, setCategory] = useState("");
+    const [category, setCategory] = useState("Feature");
     const [detail, setDetail] = useState("");
+    const [formErrors, setFormErrors] = useState<FormErrors>({});
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
-    const [error, setError] = useState(false);
+    const { isPending, error, mutate } = useMutation({
+        mutationFn: createFeedback,
+        onSuccess: (newFeedback) => {
+            queryClient.setQueryData(
+                ["feedbacks", newFeedback.insertedId],
+                newFeedback
+            );
+            console.log(newFeedback);
+            navigate(`/feedbacks/${newFeedback.insertedId}`);
+        },
+    });
+
+    const validateForm = () => {
+        const errors: any = {};
+        if (!title.trim()) errors.title = "Title is required 😔.";
+        if (!detail.trim()) errors.detail = "Please provide some details 🤓.";
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
 
     const handleFormSubmit = (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         e.preventDefault();
-        if (!title || !detail) {
-            setError(true);
-            return;
+        if (!validateForm()) {
+            return; // Prevent submission if validation fails
         }
+        mutate({
+            title,
+            category,
+            description: detail,
+            upvotes: 1,
+            comments: [],
+        });
     };
+
+    if (error) return <div>{JSON.stringify(error)}</div>;
 
     return (
         <form>
-            {/* feedback title */}
-            <div className="mb-[24px]">
-                <h4 className="text-darkNavy text-[13px] md:text-[14px] font-bold -tracking-[0.181px] mb-[3px]">
-                    Feedback Title
-                </h4>
-                <p className="text-lightNavy text-[13px] md:text-[14px] mb-[16px]">
-                    Add a short, descriptive headline
-                </p>
-                <input
-                    onChange={(e) => setTitle(e.target.value)}
-                    type="text"
-                    className={`w-full p-[14px] bg-[#F7F8FD] rounded-[10px] text-[13px] md:text-[14px] text-darkNavy focus:outline-none ${
-                        error && !title ? "border border-red-500" : ""
-                    }`}
-                />
-                {error && !title && (
-                    <p className="text-red-500 text-[13px] mt-[8px]">
-                        Please enter a title
-                    </p>
-                )}
-            </div>
-            {/* category */}
-            <div className="mb-[24px]">
-                <h4 className="text-darkNavy text-[13px] md:text-[14px] font-bold -tracking-[0.181px] mb-[3px]">
-                    Category
-                </h4>
-                <p className="text-lightNavy text-[13px] md:text-[14px] mb-[16px]">
-                    Choose a category for your feedback
-                </p>
-                <div className="w-full p-[14px] bg-[#F7F8FD] rounded-[10px] text-[13px] md:text-[14px] text-darkNavy">
-                    <Dropdown
-                        onSelect={(option) => setCategory(option)}
-                        options={["Feature", "UI", "UX", "Enchancement", "Bug"]}
-                        dropdownMenuExtraStyles="!w-full"
-                        selectedOptionStyles="justify-between !text-darkNavy !font-normal"
-                        arrowStyles="!text-blue"
-                    />
-                </div>
-            </div>
-            {/* feedback detail message */}
-            <div className="mb-[40px]">
-                <h4 className="text-darkNavy text-[13px] md:text-[14px] font-bold -tracking-[0.181px] mb-[3px]">
-                    Feedback Detail
-                </h4>
-                <p className="text-lightNavy text-[13px] md:text-[14px] mb-[16px]">
-                    Include any specific comments on what should be improved,
-                    added, etc.
-                </p>
-                <textarea
-                    onChange={(e) => setDetail(e.target.value)}
-                    className={`w-full p-[14px] bg-[#F7F8FD] rounded-[10px] text-[13px] md:text-[14px] text-darkNavy focus:outline-none ${
-                        error && !detail ? `border border-red-500` : ``
-                    }`}
-                    cols={30}
-                    rows={5}
-                ></textarea>
-                {error && !detail && (
-                    <p className="text-red-500 text-[13px] mt-[8px]">
-                        Please enter a detail
-                    </p>
-                )}
-            </div>
+            <FormGroup
+                inputType="text"
+                groupTitle="Feedback Title"
+                groupDescription="Add a short, descriptive headline"
+                onChange={setTitle}
+                inputValue={title}
+                error={formErrors.title}
+            />
+            <FormGroup
+                inputType="dropdown"
+                groupTitle="Category"
+                groupDescription="Choose a category for your feedback"
+                onChange={setCategory}
+                inputValue={category}
+                dropdownOptions={["Feature", "UI", "UX", "Enchancement", "Bug"]}
+            />
+            <FormGroup
+                inputType="textarea"
+                groupTitle="Feedback Detail"
+                groupDescription="Include any specific comments on what should be improved, added, etc."
+                onChange={setDetail}
+                inputValue={detail}
+                error={formErrors.detail}
+            />
             {/* actions buttons */}
             <div className="md:flex md:justify-end md:gap-[16px]">
                 <button
@@ -89,9 +87,12 @@ export const CreateNewFeedbackForm = () => {
                     type="submit"
                     className="bg-[#AD1FEA] rounded-[10px] text-white px-[16px] py-[10px] text-[13px] font-bold cursor-pointer md:text-[14px] md:py-[12px] md:px-[24px] w-full mb-[16px] hover:bg-[#C75AF6] transition-colors md:mb-0 md:order-2 md:w-fit"
                 >
-                    Add Feedback
+                    {isPending ? "Loading..." : "Add Feedback"}
                 </button>
-                <button className="bg-darkNavy rounded-[10px] text-white px-[16px] py-[10px] text-[13px] font-bold cursor-pointer md:text-[14px] md:py-[12px] md:px-[24px] w-full hover:bg-[#656EA3] transition-colors text-center md:order-1 md:w-fit">
+                <button
+                    onClick={() => navigate("/")}
+                    className="bg-darkNavy rounded-[10px] text-white px-[16px] py-[10px] text-[13px] font-bold cursor-pointer md:text-[14px] md:py-[12px] md:px-[24px] w-full hover:bg-[#656EA3] transition-colors text-center md:order-1 md:w-fit"
+                >
                     Cancel
                 </button>
             </div>
