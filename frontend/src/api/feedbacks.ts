@@ -1,9 +1,10 @@
 import axios from "axios";
 
-export const getFeedbacks = () => {
-    return axios
-        .get(`${import.meta.env.VITE_API_URI}feedbacks`)
-        .then((response) => response.data);
+export const getFeedbacks = async ({ pageParam = 0 }: any) => {
+    const response = await axios.get(
+        `${import.meta.env.VITE_API_URI}feedbacks?offset=${pageParam}`
+    );
+    return response.data;
 };
 
 export const createFeedback = (feedback: {
