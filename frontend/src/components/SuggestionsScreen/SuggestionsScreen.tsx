@@ -72,6 +72,7 @@ export const SuggestionsScreen = () => {
                                         return (
                                             <FeedbackCard
                                                 key={feedback._id}
+                                                id={feedback._id}
                                                 ref={ref}
                                                 title={feedback.title}
                                                 category={feedback.category}
@@ -88,6 +89,7 @@ export const SuggestionsScreen = () => {
                                         return (
                                             <FeedbackCard
                                                 key={feedback._id}
+                                                id={feedback._id}
                                                 title={feedback.title}
                                                 category={feedback.category}
                                                 description={

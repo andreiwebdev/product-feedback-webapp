@@ -1,10 +1,12 @@
 import { FaAngleUp } from "react-icons/fa";
 import CommentsIcon from "../../assets/shared/icon-comments.svg";
 import React, { useState } from "react";
+import { useUpdateVote } from "../../hooks/useUpdateVote";
 
 export const FeedbackCard = React.forwardRef(
     (
         props: {
+            id: string;
             title: string;
             category: string;
             description: string;
@@ -13,7 +15,42 @@ export const FeedbackCard = React.forwardRef(
         },
         ref: React.Ref<HTMLDivElement> | null
     ) => {
-        const [isUpvoted, setIsUpvoted] = useState(false);
+        const [voteCount, setVoteCount] = useState(props.upvotes);
+        const updateVote = useUpdateVote();
+        const [isUpvoted, setIsUpvoted] = useState(() => {
+            const upvotedFeedbacks = JSON.parse(
+                localStorage.getItem("upvotedFeedbacks") || "{}"
+            );
+            return !!upvotedFeedbacks[props.id];
+        });
+
+        const handleVote = () => {
+            const newVoteCount = isUpvoted ? voteCount - 1 : voteCount + 1;
+            updateVote.mutate(
+                { feedbackId: props.id, vote: isUpvoted ? -1 : 1 },
+                {
+                    onSuccess: () => {
+                        const newIsUpvoted = !isUpvoted;
+                        setIsUpvoted(newIsUpvoted);
+                        // Update localStorage
+                        const upvotedFeedbacks = JSON.parse(
+                            localStorage.getItem("upvotedFeedbacks") || "{}"
+                        );
+                        if (newIsUpvoted) {
+                            upvotedFeedbacks[props.id] = true;
+                        } else {
+                            delete upvotedFeedbacks[props.id];
+                        }
+                        setIsUpvoted(!isUpvoted);
+                        setVoteCount(newVoteCount);
+                        localStorage.setItem(
+                            "upvotedFeedbacks",
+                            JSON.stringify(upvotedFeedbacks)
+                        );
+                    },
+                }
+            );
+        };
 
         const card = (
             <div className="bg-white rounded-[10px] p-[24px] md:flex md:items-start md:gap-[40px] md:relative md:py-[28px] md:px-[32px]">
@@ -30,7 +67,7 @@ export const FeedbackCard = React.forwardRef(
                 </div>
                 <div className="flex items-center justify-between md:order-1">
                     <div
-                        onClick={() => setIsUpvoted(!isUpvoted)}
+                        onClick={handleVote}
                         className={`bg-grey rounded-[10px] text-darkNavy hover:bg-lighterBlue w-fit px-[16px] py-[5px] cursor-pointer text-[13px] font-semibold last:mb-0 flex items-center group gap-[8px] md:flex-col md:px-[9px] md:pt-[14px] md:pb-[9px] ${
                             isUpvoted ? "!bg-blue !text-white" : ""
                         }`}
@@ -40,7 +77,7 @@ export const FeedbackCard = React.forwardRef(
                                 isUpvoted ? "text-white" : "text-blue"
                             }`}
                         />{" "}
-                        <span>{props.upvotes}</span>
+                        <span>{voteCount}</span>
                     </div>
                     <div className="md:absolute right-[32px] top-1/2 transform -translate-y-1/2">
                         <div className="flex items-center gap-[8px]">
