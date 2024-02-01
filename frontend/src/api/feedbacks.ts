@@ -1,6 +1,10 @@
 import axios from "axios";
 
-export const getFeedbacks = async ({ pageParam = 0 }: any) => {
+export const getFeedbacks = async ({
+    pageParam = 0,
+}: {
+    pageParam: number;
+}) => {
     const response = await axios.get(
         `${import.meta.env.VITE_API_URI}feedbacks?offset=${pageParam}`
     );

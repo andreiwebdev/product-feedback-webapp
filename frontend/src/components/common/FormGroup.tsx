@@ -4,7 +4,7 @@ export const FormGroup = (props: {
     inputType: string;
     groupTitle: string;
     groupDescription: string;
-    onChange: (e: any) => void;
+    onChange: (value: string) => void;
     inputValue: string;
     dropdownOptions?: string[];
     error?: string;

@@ -29,7 +29,9 @@ export const CreateNewFeedbackForm = () => {
     });
 
     const validateForm = () => {
-        const errors: any = {};
+        const errors: {
+            [key: string]: string;
+        } = {};
         if (!title.trim()) errors.title = "Title is required 😔.";
         if (!detail.trim()) errors.detail = "Please provide some details 🤓.";
         setFormErrors(errors);
