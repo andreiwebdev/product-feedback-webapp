@@ -9,10 +9,20 @@ router.get("/", async (req, res) => {
     const limit = 10;
     const offset = parseInt(req.query.offset) || 0;
 
-    let collection = await db.collection("feedbacks");
-    let results = await collection.find({}).skip(offset).limit(limit).toArray();
+    try {
+        let collection = await db.collection("feedbacks");
+        let results = await collection
+            .find({})
+            .sort({ upvotes: -1 }) // Sort by upvotes in descending order
+            .skip(offset)
+            .limit(limit)
+            .toArray();
 
-    res.send(results).status(200);
+        res.send(results).status(200);
+    } catch (error) {
+        console.error("Failed to fetch feedbacks:", error);
+        res.status(500).send({ message: "Failed to fetch feedbacks" });
+    }
 });
 
 // Add a new document to the collection
