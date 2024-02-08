@@ -51,6 +51,7 @@ export const CreateNewFeedbackForm = () => {
             description: detail,
             upvotes: 1,
             comments: [],
+            status: "Planned"
         });
     };
 

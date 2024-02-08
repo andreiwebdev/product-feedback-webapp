@@ -55,4 +55,21 @@ router.get("/count", async (req, res) => {
     res.send({ count }).status(200);
 });
 
+// Get feedback count based on status
+router.get("/status-count", async (req, res) => {
+    try {
+        let collection = await db.collection("feedbacks");
+        const statusCounts = await collection
+            .aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }])
+            .toArray();
+
+        res.json(statusCounts).status(200);
+    } catch (error) {
+        console.error("Failed to fetch feedback counts by status:", error);
+        res.status(500).send({
+            message: "Failed to fetch feedback counts by status",
+        });
+    }
+});
+
 export default router;

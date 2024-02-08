@@ -17,6 +17,7 @@ export const createFeedback = (feedback: {
     description: string;
     upvotes: number;
     comments: string[];
+    status: string;
 }) => {
     return axios
         .post(`${import.meta.env.VITE_API_URI}feedbacks`, feedback)

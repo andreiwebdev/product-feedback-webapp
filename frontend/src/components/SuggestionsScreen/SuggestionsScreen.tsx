@@ -1,4 +1,4 @@
-import { ActionsTopBar, FeedbackCard } from ".";
+import { ActionsTopBar, FeedbackCard, NoFeedback } from ".";
 import { Sidebar } from "../Sidebar";
 import { Loading, Wrapper } from "../common";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -106,6 +106,7 @@ export const SuggestionsScreen = () => {
                             )}
                         </React.Fragment>
                     ))}
+                    {data.pages[0].length === 0 && <NoFeedback />}
                     {isFetchingNextPage && (
                         <div className="flex items-center justify-center py-8">
                             <Loading />
