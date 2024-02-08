@@ -46,7 +46,7 @@ export const Sidebar = () => {
             >
                 <div className="bg-lightGrey w-[80%] h-screen p-[24px] md:p-0 md:w-full md:h-fit z-10">
                     <Wrapper extraClasses="md:grid md:grid-cols-2 md:p-0 md:gap-[8px] xl:flex xl:flex-col">
-                        <div className="bg-white rounded-[10px] p-[24px] flex items-center gap-[8px] flex-wrap mb-[24px] md:mb-0 xl:mb-[24px]">
+                        {/* <div className="bg-white rounded-[10px] p-[24px] flex items-center gap-[8px] flex-wrap mb-[24px] md:mb-0 xl:mb-[24px]">
                             <div className="rounded-[10px] hover:bg-lighterBlue w-fit px-[16px] py-[5px] cursor-pointer text-[13px] font-semibold text-white bg-blue last:mb-0">
                                 All
                             </div>
@@ -65,7 +65,7 @@ export const Sidebar = () => {
                             <div className="bg-grey rounded-[10px] text-blue hover:bg-lighterBlue w-fit px-[16px] py-[5px] cursor-pointer text-[13px] font-semibold last:mb-0">
                                 Feature
                             </div>
-                        </div>
+                        </div> */}
                         <div className="bg-white rounded-[10px] p-[24px]">
                             <div className="flex items-center justify-between mb-[24px]">
                                 <div className="text-darkNavy text-[18px] font-bold -tracking-[0.25]">

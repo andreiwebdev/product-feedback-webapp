@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { Dropdown } from "../common";
+// import { Dropdown } from "../common";
 import { SvgIdea } from "../svgs";
 import { useGetFeedbacksCount } from "../../hooks";
 
 export const ActionsTopBar = () => {
-    const {data: feedbacksCount} = useGetFeedbacksCount();
+    const { data: feedbacksCount } = useGetFeedbacksCount();
 
     const navigate = useNavigate();
 
@@ -17,9 +17,10 @@ export const ActionsTopBar = () => {
                 <div className="text-white text-[13px] flex items-center gap-[8px] md:text-[14px]">
                     <div className="flex gap-[38px] items-center">
                         <div className="hidden md:flex items-center gap-[16px] text-[18px] font-bold -tracking-[-0.25] text-white">
-                            <SvgIdea /> {feedbacksCount ? feedbacksCount : 0} Suggestions
+                            <SvgIdea /> {feedbacksCount ? feedbacksCount : 0}{" "}
+                            Suggestions
                         </div>
-                        <div className="flex gap-[4px]">
+                        {/* <div className="flex gap-[4px]">
                             Sort by :
                             <Dropdown
                                 options={[
@@ -30,7 +31,7 @@ export const ActionsTopBar = () => {
                                 ]}
                                 dropdownMenuExtraStyles="-left-[50%]"
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div
