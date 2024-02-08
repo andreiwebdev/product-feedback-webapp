@@ -48,4 +48,11 @@ router.patch("/:id/vote", async (req, res) => {
     }
 });
 
+// Get count of feedbacks
+router.get("/count", async (req, res) => {
+    let collection = await db.collection("feedbacks");
+    let count = await collection.countDocuments();
+    res.send({ count }).status(200);
+});
+
 export default router;

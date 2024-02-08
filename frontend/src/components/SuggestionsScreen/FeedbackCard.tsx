@@ -1,7 +1,7 @@
 import { FaAngleUp } from "react-icons/fa";
 import CommentsIcon from "../../assets/shared/icon-comments.svg";
 import React, { useState } from "react";
-import { useUpdateVote } from "../../hooks/useUpdateVote";
+import { useUpdateVote } from "../../hooks";
 
 export const FeedbackCard = React.forwardRef(
     (
