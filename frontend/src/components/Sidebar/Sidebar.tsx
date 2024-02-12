@@ -8,6 +8,16 @@ export const Sidebar = () => {
     const [toggleMobileMenu, setToggleMobileMenu] = useState(false);
     const { data: feedbacksCountByStatus } = useGetFeedbacksCountByStatus();
 
+    const plannedFeedbacksCount = feedbacksCountByStatus?.find(
+        (item: { _id: string }) => item._id === "Planned"
+    );
+    const inProgressFeedbacksCount = feedbacksCountByStatus?.find(
+        (item: { _id: string }) => item._id === "In-Progress"
+    );
+    const liveFeedbacksCount = feedbacksCountByStatus?.find(
+        (item: { _id: string }) => item._id === "Live"
+    );
+
     return (
         <div className="container mx-auto md:px-[24px] xl:px-0 xs:px-0 sm:max-w-3xl xl:max-w-[20%] xl:mx-0 md:flex md:gap-[10px] xl:block md:mb-[40px] xl:mb-0">
             <div
@@ -45,7 +55,7 @@ export const Sidebar = () => {
                 }`}
             >
                 <div className="bg-lightGrey w-[80%] h-screen p-[24px] md:p-0 md:w-full md:h-fit z-10">
-                    <Wrapper extraClasses="md:grid md:grid-cols-2 md:p-0 md:gap-[8px] xl:flex xl:flex-col">
+                    <Wrapper extraClasses="md:grid md:p-0 md:gap-[8px] xl:flex xl:flex-col">
                         {/* <div className="bg-white rounded-[10px] p-[24px] flex items-center gap-[8px] flex-wrap mb-[24px] md:mb-0 xl:mb-[24px]">
                             <div className="rounded-[10px] hover:bg-lighterBlue w-fit px-[16px] py-[5px] cursor-pointer text-[13px] font-semibold text-white bg-blue last:mb-0">
                                 All
@@ -84,7 +94,7 @@ export const Sidebar = () => {
                                 </div>
                                 <div className="text-lightNavy text-[16px] font-bold">
                                     {feedbacksCountByStatus
-                                        ? feedbacksCountByStatus[0].count
+                                        ? plannedFeedbacksCount.count
                                         : 0}
                                 </div>
                             </div>
@@ -97,7 +107,7 @@ export const Sidebar = () => {
                                 </div>
                                 <div className="text-lightNavy text-[16px] font-bold">
                                     {feedbacksCountByStatus
-                                        ? feedbacksCountByStatus[1].count
+                                        ? inProgressFeedbacksCount.count
                                         : 0}
                                 </div>
                             </div>
@@ -110,7 +120,7 @@ export const Sidebar = () => {
                                 </div>
                                 <div className="text-lightNavy text-[16px] font-bold">
                                     {feedbacksCountByStatus
-                                        ? feedbacksCountByStatus[2].count
+                                        ? liveFeedbacksCount.count
                                         : 0}
                                 </div>
                             </div>
