@@ -1,13 +1,14 @@
 import { FaAngleLeft } from "react-icons/fa";
-import { Wrapper } from "../common";
+import { Loading, Wrapper } from "../common";
 import { useEffect, useState } from "react";
 import { FeatureCard } from ".";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getFeedbacksWithStatus } from "../../api/feedbacks";
+import { NoFeedback } from "../SuggestionsScreen";
 
 export const RoadmapScreen = () => {
-    const { data: feedbacks } = useQuery({
+    const { data: feedbacks, isLoading } = useQuery({
         queryKey: ["feedbacksByStatus"],
         queryFn: getFeedbacksWithStatus,
     });
@@ -48,6 +49,14 @@ export const RoadmapScreen = () => {
         }
     };
 
+    if (isLoading) {
+        return (
+            <div className="bg-lightGrey flex justify-center items-center h-screen">
+                <Loading />
+            </div>
+        );
+    }
+
     return (
         <Wrapper extraClasses="!px-0 md:pt-[56px] xl:max-w-6xl">
             <div className="bg-navy w-full px-[24px] py-[26px] md:mb-[32px] flex items-center justify-between md:rounded-[10px] md:py-[26px] md:px-[32px] xl:mb-[48px] ">
@@ -72,6 +81,7 @@ export const RoadmapScreen = () => {
                     + Add Feedback
                 </div>
             </div>
+            {feedbacks.count === 0 && <NoFeedback />}
             {isMobile && (
                 <div className="border-b pt-[20px] px-[20px] mb-[24px] flex items-center justify-between md:hidden">
                     {feedbacks?.feedbacksByStatus.map(

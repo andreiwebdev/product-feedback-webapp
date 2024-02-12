@@ -42,7 +42,7 @@ export const SuggestionsScreen = () => {
 
     if (status === "pending")
         return (
-            <div className="bg-white w-full h-screen flex items-center justify-center">
+            <div className="bg-lightGrey w-full h-screen flex items-center justify-center">
                 <Loading />
             </div>
         );

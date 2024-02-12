@@ -98,7 +98,7 @@ export const Sidebar = () => {
                                     </div>
                                 </div>
                                 <div className="text-lightNavy text-[16px] font-bold">
-                                    {feedbacksCountByStatus
+                                    {plannedFeedbacksCount
                                         ? plannedFeedbacksCount.count
                                         : 0}
                                 </div>
@@ -111,7 +111,7 @@ export const Sidebar = () => {
                                     </div>
                                 </div>
                                 <div className="text-lightNavy text-[16px] font-bold">
-                                    {feedbacksCountByStatus
+                                    {inProgressFeedbacksCount
                                         ? inProgressFeedbacksCount.count
                                         : 0}
                                 </div>
@@ -124,7 +124,7 @@ export const Sidebar = () => {
                                     </div>
                                 </div>
                                 <div className="text-lightNavy text-[16px] font-bold">
-                                    {feedbacksCountByStatus
+                                    {liveFeedbacksCount
                                         ? liveFeedbacksCount.count
                                         : 0}
                                 </div>
