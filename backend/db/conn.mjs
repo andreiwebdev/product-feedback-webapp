@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 
-const connectionString = process.env.MONGO_URI;
+const connectionString = process.env.MONGODB_URI;
 const client = new MongoClient(connectionString);
 
 let conn;
@@ -11,5 +11,5 @@ try {
 }
 
 // let db = conn.db("sample_training");
-let db = conn.db(process.env.MONGO_DB_NAME);
+let db = conn.db("product_feedback_db");
 export default db;
