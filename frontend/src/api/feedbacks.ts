@@ -23,3 +23,21 @@ export const createFeedback = (feedback: {
         .post(`${import.meta.env.VITE_API_URI}feedbacks`, feedback)
         .then((response) => response.data);
 };
+
+export const addComment = (
+    feedbackId: string,
+    comment: {
+        firstName: string;
+        lastName: string;
+        comment: string;
+    }
+) => {
+    const requestData = { comment };
+
+    return axios
+        .post(
+            `${import.meta.env.VITE_API_URI}feedbacks/${feedbackId}/comments`,
+            requestData
+        )
+        .then((response) => response.data);
+};

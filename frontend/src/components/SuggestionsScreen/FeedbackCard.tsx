@@ -1,7 +1,8 @@
 import { FaAngleUp } from "react-icons/fa";
 import CommentsIcon from "../../assets/shared/icon-comments.svg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUpdateVote } from "../../hooks";
+import { useNavigate } from "react-router-dom";
 
 export const FeedbackCard = React.forwardRef(
     (
@@ -15,6 +16,7 @@ export const FeedbackCard = React.forwardRef(
         },
         ref: React.Ref<HTMLDivElement> | null
     ) => {
+        const navigate = useNavigate();
         const [voteCount, setVoteCount] = useState(props.upvotes);
         const updateVote = useUpdateVote();
         const [isUpvoted, setIsUpvoted] = useState(() => {
@@ -41,16 +43,24 @@ export const FeedbackCard = React.forwardRef(
                         } else {
                             delete upvotedFeedbacks[props.id];
                         }
-                        setIsUpvoted(!isUpvoted);
-                        setVoteCount(newVoteCount);
                         localStorage.setItem(
                             "upvotedFeedbacks",
                             JSON.stringify(upvotedFeedbacks)
                         );
+                        setVoteCount(newVoteCount); // Update voteCount state
                     },
                 }
             );
         };
+
+        useEffect(() => {
+            // Fetch isUpvoted value from localStorage when component mounts
+            const upvotedFeedbacks = JSON.parse(
+                localStorage.getItem("upvotedFeedbacks") || "{}"
+            );
+            setIsUpvoted(!!upvotedFeedbacks[props.id]); // Set isUpvoted based on localStorage data
+            setVoteCount(props.upvotes); // Set voteCount based on props data
+        }, [props.id]); // Run the effect only when the id changes or component mounts
 
         const card = (
             <div className="bg-white rounded-[10px] p-[24px] md:flex md:items-start md:gap-[40px] md:relative md:py-[28px] md:px-[32px]">
@@ -79,7 +89,10 @@ export const FeedbackCard = React.forwardRef(
                         />{" "}
                         <span>{voteCount}</span>
                     </div>
-                    <div className="md:absolute right-[32px] top-1/2 transform -translate-y-1/2">
+                    <div
+                        onClick={() => navigate(`/feedbacks/${props.id}`)}
+                        className="md:absolute right-[32px] top-1/2 transform -translate-y-1/2 cursor-pointer"
+                    >
                         <div className="flex items-center gap-[8px]">
                             <img src={CommentsIcon} alt="comment icon" />
                             <div className="text-darkNavy text-[13px] font-bold -tracking-[0.181px] md:text-[16px]">

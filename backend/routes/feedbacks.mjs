@@ -82,4 +82,45 @@ router.get("/status-count", async (req, res) => {
     }
 });
 
+// Get a single feedback by ID
+router.get("/:id", async (req, res) => {
+    const feedbackId = req.params.id;
+
+    try {
+        const collection = await db.collection("feedbacks");
+        const feedback = await collection.findOne({
+            _id: new mongodb.ObjectId(feedbackId),
+        });
+
+        if (!feedback) {
+            return res.status(404).json({ message: "Feedback not found" });
+        }
+
+        res.json(feedback).status(200);
+    } catch (error) {
+        console.error("Failed to fetch feedback:", error);
+        res.status(500).json({ message: "Failed to fetch feedback" });
+    }
+});
+
+// Add a comment to a feedback
+router.post("/:id/comments", async (req, res) => {
+    const feedbackId = req.params.id;
+    const { comment } = req.body;
+
+    try {
+        const collection = await db.collection("feedbacks");
+        const feedback = await collection.findOneAndUpdate(
+            { _id: new mongodb.ObjectId(feedbackId) },
+            { $push: { comments: comment } }, // Add the comment to the comments array
+            { returnOriginal: false }
+        );
+
+        res.json(feedback.value).status(200);
+    } catch (error) {
+        console.error("Failed to add comment:", error);
+        res.status(500).json({ message: "Failed to add comment" });
+    }
+});
+
 export default router;

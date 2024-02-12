@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { CreateNewFeedbackScreen } from "./components/CreateNewFeedbackScreen/index.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { FeedbackDetailScreen } from "./components/FeedbackDetailScreen/index.tsx";
 
 const router = createBrowserRouter([
     {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
     {
         path: "/add-feedback",
         element: <CreateNewFeedbackScreen />,
+    },
+    {
+        path: "/feedbacks/:id",
+        element: <FeedbackDetailScreen />,
     },
 ]);
 
