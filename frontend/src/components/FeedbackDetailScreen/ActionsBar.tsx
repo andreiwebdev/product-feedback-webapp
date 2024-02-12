@@ -7,7 +7,7 @@ export const ActionsBar = () => {
     return (
         <div className="flex items-center justify-between mb-[24px]">
             <div
-                onClick={() => navigate("/")}
+                onClick={() => navigate(-1)}
                 className="flex items-center gap-[15px] cursor-pointer"
             >
                 <FaAngleLeft className="text-blue" />

@@ -41,3 +41,10 @@ export const addComment = (
         )
         .then((response) => response.data);
 };
+
+export const getFeedbacksWithStatus = async () => {
+    const response = await axios.get(
+        `${import.meta.env.VITE_API_URI}feedbacks/count`
+    );
+    return response.data;
+};

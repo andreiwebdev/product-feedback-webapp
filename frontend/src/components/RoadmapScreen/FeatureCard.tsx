@@ -1,17 +1,64 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaAngleUp } from "react-icons/fa";
 import CommentsIcon from "../../assets/shared/icon-comments.svg";
+import { useNavigate } from "react-router-dom";
+import { useUpdateVote } from "../../hooks";
 
 export const FeatureCard = (props: {
+    id: string;
     title: string;
     description: string;
     category: string;
     upvotes: number;
     comments: number;
     status: string;
-    color: string;
+    color?: string;
 }) => {
-    const [isUpvoted, setIsUpvoted] = useState(false);
+    const navigate = useNavigate();
+    const [voteCount, setVoteCount] = useState(props.upvotes);
+    const updateVote = useUpdateVote();
+    const [isUpvoted, setIsUpvoted] = useState(() => {
+        const upvotedFeedbacks = JSON.parse(
+            localStorage.getItem("upvotedFeedbacks") || "{}"
+        );
+        return !!upvotedFeedbacks[props.id];
+    });
+
+    const handleVote = () => {
+        const newVoteCount = isUpvoted ? voteCount - 1 : voteCount + 1;
+        updateVote.mutate(
+            { feedbackId: props.id, vote: isUpvoted ? -1 : 1 },
+            {
+                onSuccess: () => {
+                    const newIsUpvoted = !isUpvoted;
+                    setIsUpvoted(newIsUpvoted);
+                    // Update localStorage
+                    const upvotedFeedbacks = JSON.parse(
+                        localStorage.getItem("upvotedFeedbacks") || "{}"
+                    );
+                    if (newIsUpvoted) {
+                        upvotedFeedbacks[props.id] = true;
+                    } else {
+                        delete upvotedFeedbacks[props.id];
+                    }
+                    localStorage.setItem(
+                        "upvotedFeedbacks",
+                        JSON.stringify(upvotedFeedbacks)
+                    );
+                    setVoteCount(newVoteCount); // Update voteCount state
+                },
+            }
+        );
+    };
+
+    useEffect(() => {
+        // Fetch isUpvoted value from localStorage when component mounts
+        const upvotedFeedbacks = JSON.parse(
+            localStorage.getItem("upvotedFeedbacks") || "{}"
+        );
+        setIsUpvoted(!!upvotedFeedbacks[props.id]); // Set isUpvoted based on localStorage data
+        setVoteCount(props.upvotes); // Set voteCount based on props data
+    }, [props.id]); // Run the effect only when the id changes or component mounts
 
     return (
         <div
@@ -36,7 +83,7 @@ export const FeatureCard = (props: {
             </div>
             <div className="flex items-center justify-between md:order-1">
                 <div
-                    onClick={() => setIsUpvoted(!isUpvoted)}
+                    onClick={handleVote}
                     className={`bg-grey rounded-[10px] text-darkNavy hover:bg-lighterBlue w-fit px-[16px] py-[5px] cursor-pointer text-[13px] font-semibold last:mb-0 flex items-center group gap-[8px] ${
                         isUpvoted ? "!bg-blue !text-white" : ""
                     }`}
@@ -46,9 +93,12 @@ export const FeatureCard = (props: {
                             isUpvoted ? "text-white" : "text-blue"
                         }`}
                     />{" "}
-                    <span>{props.upvotes}</span>
+                    <span>{voteCount}</span>
                 </div>
-                <div className="">
+                <div
+                    onClick={() => navigate(`/feedbacks/${props.id}`)}
+                    className="cursor-pointer"
+                >
                     <div className="flex items-center gap-[8px]">
                         <img src={CommentsIcon} alt="comment icon" />
                         <div className="text-darkNavy text-[13px] font-bold -tracking-[0.181px] ">

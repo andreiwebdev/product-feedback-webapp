@@ -7,6 +7,7 @@ import { CreateNewFeedbackScreen } from "./components/CreateNewFeedbackScreen/in
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { FeedbackDetailScreen } from "./components/FeedbackDetailScreen/index.tsx";
+import { RoadmapScreen } from "./components/RoadmapScreen/index.tsx";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
     {
         path: "/feedbacks/:id",
         element: <FeedbackDetailScreen />,
+    },
+    {
+        path: "/roadmap",
+        element: <RoadmapScreen />,
     },
 ]);
 

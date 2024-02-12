@@ -60,9 +60,53 @@ router.patch("/:id/vote", async (req, res) => {
 
 // Get count of feedbacks
 router.get("/count", async (req, res) => {
-    let collection = await db.collection("feedbacks");
-    let count = await collection.countDocuments();
-    res.send({ count }).status(200);
+    try {
+        const collection = await db.collection("feedbacks");
+
+        // Get count of feedbacks
+        const count = await collection.countDocuments();
+
+        // Group feedbacks by status and count the number of features for each status
+        const feedbacksByStatus = await collection
+            .aggregate([
+                {
+                    $group: {
+                        _id: "$status",
+                        numberOfFeatures: { $sum: 1 },
+                        features: {
+                            $push: {
+                                id: "$_id",
+                                title: "$title",
+                                description: "$description",
+                                category: "$category",
+                                upvotes: "$upvotes",
+                                comments: { $size: "$comments" },
+                                status: "$status",
+                            },
+                        },
+                    },
+                },
+            ])
+            .toArray();
+
+        // Sort features within each status group by upvotes (from most to least voted)
+        feedbacksByStatus.forEach((statusGroup) => {
+            statusGroup.features.sort((a, b) => b.upvotes - a.upvotes);
+        });
+
+        // Sort feedbacks by status
+        feedbacksByStatus.sort((a, b) => {
+            const statusOrder = { Planned: 1, "In-Progress": 2, Live: 3 };
+            return statusOrder[a._id] - statusOrder[b._id];
+        });
+
+        console.log(count, feedbacksByStatus);
+
+        res.status(200).json({ count, feedbacksByStatus });
+    } catch (error) {
+        console.error("Failed to fetch feedbacks:", error);
+        res.status(500).json({ message: "Failed to fetch feedbacks" });
+    }
 });
 
 // Get feedback count based on status

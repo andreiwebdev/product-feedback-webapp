@@ -8,7 +8,7 @@ export const CreateNewFeedbackScreen = () => {
     const navigate = useNavigate();
 
     const handleGoBack = () => {
-        navigate("/");
+        navigate(-1);
     };
 
     return (

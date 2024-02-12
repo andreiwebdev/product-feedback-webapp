@@ -3,8 +3,10 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 import { Wrapper } from "../common";
 import { useGetFeedbacksCountByStatus } from "../../hooks";
+import { useNavigate } from "react-router-dom";
 
 export const Sidebar = () => {
+    const navigate = useNavigate();
     const [toggleMobileMenu, setToggleMobileMenu] = useState(false);
     const { data: feedbacksCountByStatus } = useGetFeedbacksCountByStatus();
 
@@ -81,7 +83,10 @@ export const Sidebar = () => {
                                 <div className="text-darkNavy text-[18px] font-bold -tracking-[0.25]">
                                     Roadmap
                                 </div>
-                                <div className="text-blue underline text-[13px] font-semibold cursor-pointer">
+                                <div
+                                    onClick={() => navigate("/roadmap")}
+                                    className="text-blue underline text-[13px] font-semibold cursor-pointer"
+                                >
                                     View
                                 </div>
                             </div>
